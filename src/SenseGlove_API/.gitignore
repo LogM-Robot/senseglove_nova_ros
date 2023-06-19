@@ -1,60 +1,10 @@
+#Gitignore for SenseGlove_API
 
-# Visual Studio cache directory
-.vs/
+#Don't need 200+ files just to show how SGConnect::Init() and SGConnect::Dispose() work
+Core/SGConnect/doc* 
 
-# Visual C++ cache files
-ipch/
-*.aps
-*.ncb
-*.opensdf
-*.sdf
-*.cachefile
+#ignore any session logs created by SenseCom during testing
+*sessionLog.txt
 
-# Visual Studio profiler
-*.psess
-*.vsp
-*.vspx
-
-
-# Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
-
-# Unity3D generated file on crash reports
-sysinfo.txt
-
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
-[Aa]ssembly[Ii]nfo.cs
-VERSIONINFO.rc
-[Ee]xported[Oo]bj/
-[Oo]bj/
-.vs/
-*.svd
-*.userprefs
-/*.csproj
-*.pidb
-*.suo
-*.user
-*.unityproj
-*.booproj
-*.sln.docstates
-
-# MSTest test Results
-[Tt]est[Rr]esult*/
-[Bb]uild[Ll]og.*
-
-# Visual C++ cache files
-ipch/
-*.aps
-*.ncb
-*.opensdf
-*.sdf
-*.cachefile
-
-# Visual Studio profiler
-*.psess
-*.vsp
-*.vspx
+#bak files made using programs like Notepad++.
+*.bak

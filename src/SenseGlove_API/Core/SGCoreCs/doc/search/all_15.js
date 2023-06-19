@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['validate_257',['Validate',['../class_s_g_core_1_1_kinematics_1_1_basic_hand_model.html#af788a36c48501c2b339c553841fbb91d',1,'SGCore.Kinematics.BasicHandModel.Validate()'],['../class_s_g_core_1_1_haptics_1_1_s_g___buzz_cmd.html#a42a2d3e5b77e804383d2010e617782d7',1,'SGCore.Haptics.SG_BuzzCmd.Validate()'],['../class_s_g_core_1_1_haptics_1_1_s_g___f_f_b_cmd.html#a84b4b42060d2d42ff3aaeadc7f2925e4',1,'SGCore.Haptics.SG_FFBCmd.Validate()'],['../class_s_g_core_1_1_haptics_1_1_s_g___finger_cmd.html#aa691cc4fbfb1b426276fa6e87237d1ca',1,'SGCore.Haptics.SG_FingerCmd.Validate()']]],
-  ['values_258',['Values',['../class_s_g_core_1_1_kinematics_1_1_values.html',1,'SGCore::Kinematics']]],
-  ['vect3d_259',['Vect3D',['../struct_s_g_core_1_1_kinematics_1_1_vect3_d.html',1,'SGCore.Kinematics.Vect3D'],['../struct_s_g_core_1_1_kinematics_1_1_vect3_d.html#aa87df72a447b2b86b82f9af09ee23506',1,'SGCore.Kinematics.Vect3D.Vect3D()']]]
+  ['w_699',['w',['../struct_s_g_core_1_1_kinematics_1_1_quat.html#a846b354facd0dbdb1dc5dee2a8913fcf',1,'SGCore::Kinematics::Quat']]],
+  ['waveform_2ecs_700',['Waveform.cs',['../_waveform_8cs.html',1,'']]],
+  ['wristandhandpose_701',['WristAndHandPose',['../namespace_s_g_core_1_1_c_v.html#a4c5bcef9f19dc09895d18b7cf3fefd5ca55f1579e54c262d5cdad55ee747d85e8',1,'SGCore::CV']]],
+  ['wristonly_702',['WristOnly',['../namespace_s_g_core_1_1_c_v.html#a4c5bcef9f19dc09895d18b7cf3fefd5ca102580669574e29daea93b3968acddad',1,'SGCore::CV']]],
+  ['wristvibrolevel_703',['WristVibroLevel',['../class_s_g_core_1_1_nova_1_1_nova___haptic_stream.html#a6ede973d078707a74ebc6c859436cd69',1,'SGCore::Nova::Nova_HapticStream']]],
+  ['wristvibroupdate_704',['wristVibroUpdate',['../class_s_g_core_1_1_nova_1_1_nova___haptic_stream.html#ada288d7f758364c0b38a7e9300684acd',1,'SGCore::Nova::Nova_HapticStream']]],
+  ['wristworldposition_705',['wristWorldPosition',['../class_s_g_core_1_1_c_v_1_1_c_v___hand_data_point.html#a1e2c4a279058005cb5e755901e19ef68',1,'SGCore::CV::CV_HandDataPoint']]],
+  ['wristworldrotation_706',['wristWorldRotation',['../class_s_g_core_1_1_c_v_1_1_c_v___hand_data_point.html#a493f957a30cdca29ec3394636484ec81',1,'SGCore::CV::CV_HandDataPoint']]]
 ];

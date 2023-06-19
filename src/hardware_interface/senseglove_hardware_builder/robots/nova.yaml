@@ -1,4 +1,5 @@
-fino:
+# fino:
+nova:
   deviceType: 2
   communicationCycleTime: 10
   joints:
