@@ -14,6 +14,7 @@ add_message_files(
     FingerDistanceFloats.msg
     FingerDistances.msg
     KinematicsVect3D.msg
+    KinematicsQuat.msg
     SenseGloveState.msg
 )
 

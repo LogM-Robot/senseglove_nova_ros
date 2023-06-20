@@ -102,9 +102,9 @@ SenseGloveSetup::~SenseGloveSetup()
   stopCommunication();
 }
 
-const urdf::Model& SenseGloveSetup::getRobotUrdf(std::string glove_robot_name)
-{
-  return this->getSenseGloveRobot(glove_robot_name).getUrdf();
-}
+// const urdf::Model& SenseGloveSetup::getRobotUrdf(std::string glove_robot_name)
+// {
+//   return this->getSenseGloveRobot(glove_robot_name).getUrdf();
+// }
 
 }  // namespace senseglove

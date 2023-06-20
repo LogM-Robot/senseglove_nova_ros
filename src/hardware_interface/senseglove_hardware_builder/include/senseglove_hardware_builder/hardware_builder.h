@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include <urdf/model.h>
+// #include <urdf/model.h>
 #include <yaml-cpp/yaml.h>
 
 #include <senseglove_hardware/actuation_mode.h>
@@ -30,7 +30,8 @@ public:
   /**
    * @brief Initialises with a robot name and URDF.
    */
-  HardwareBuilder(AllowedRobot robot, urdf::Model urdf);
+  // HardwareBuilder(AllowedRobot robot, urdf::Model urdf);
+  HardwareBuilder(AllowedRobot robot);
 
   /**
    * @brief Initialises a HardwareBuilder with a path to a .yaml file.
@@ -40,7 +41,8 @@ public:
   /**
    * @brief Initialises with a path to yaml and URDF.
    */
-  HardwareBuilder(const std::string& yaml_path, urdf::Model urdf);
+  // HardwareBuilder(const std::string& yaml_path, urdf::Model urdf);
+  HardwareBuilder(const std::string& yaml_path);
 
   /**
    * @brief Creates a SenseGloveRobot. Loads a URDF from the parameter server
@@ -57,14 +59,22 @@ public:
    *
    * @throws MissingKeyException when required keys are missing.
    */
-  static void validateRequiredKeysExist(const YAML::Node& config, const std::vector<std::string>& key_list,
-                                        const std::string& object_name);
+  static void validateRequiredKeysExist(const YAML::Node& config, const std::vector<std::string>& key_list, const std::string& object_name);
 
-  static senseglove::Joint createJoint(const YAML::Node& joint_config, const std::string& joint_name,
-                                       const urdf::JointConstSharedPtr& urdf_joint);
-  static senseglove::SenseGloveRobot createRobot(const YAML::Node& joint_config, urdf::Model urdf,
-                                                 std::vector<senseglove::Joint> joints, SGCore::SG::SenseGlove glove,
-                                                 int robot_index, bool is_arg_right);
+  static senseglove::Joint createJoint(
+    const YAML::Node& joint_config, const std::string& joint_name
+    // const urdf::JointConstSharedPtr& urdf_joint
+    );
+  
+  // static senseglove::SenseGloveRobot createRobot(
+  //   const YAML::Node& joint_config, urdf::Model urdf,
+  //   std::vector<senseglove::Joint> joints, SGCore::SG::SenseGlove glove,
+  //   int robot_index, bool is_arg_right);
+  static senseglove::SenseGloveRobot createRobot(
+    const YAML::Node& robot_config, std::vector<senseglove::Joint> joints,
+    std::shared_ptr<SGCore::HapticGlove> glove,
+    int robot_index, bool is_arg_right);
+
 
   static const std::vector<std::string> JOINT_REQUIRED_KEYS;
   static const std::vector<std::string> ROBOT_REQUIRED_KEYS;
@@ -73,7 +83,7 @@ private:
   /**
    * Initializes the URDF if necessary.
    */
-  void initUrdf(SGCore::DeviceType type, bool is_right);
+  // void initUrdf(SGCore::DeviceType type, bool is_right);
 
   /**
    * Returns all joints found in the given config.
@@ -83,14 +93,16 @@ private:
    * @return list of created joints
    */
   std::vector<senseglove::Joint> createJoints(const YAML::Node& joints_config) const;
-  std::vector<senseglove::SenseGloveRobot> createRobots(const YAML::Node& robots_config, urdf::Model urdf,
-                                                        std::vector<senseglove::Joint> joints,
-                                                        std::vector<SGCore::SG::SenseGlove> all_gloves) const;
-  SGCore::SG::SenseGlove correct_glove(std::vector<SGCore::SG::SenseGlove> gloves) const;
+
+  std::vector<senseglove::SenseGloveRobot> createRobots(
+    const YAML::Node& robots_config, std::vector<senseglove::Joint> joints,
+    std::vector<std::shared_ptr<SGCore::HapticGlove>> all_gloves) const;
+
+  std::shared_ptr<SGCore::HapticGlove> correct_glove(std::vector<std::shared_ptr<SGCore::HapticGlove>> gloves) const;
 
   YAML::Node robot_config_;
-  urdf::Model urdf_;
-  bool init_urdf_ = true;
+  // urdf::Model urdf_;
+  // bool init_urdf_ = true;
   int nr_of_glove_;
   bool is_right_;
 };

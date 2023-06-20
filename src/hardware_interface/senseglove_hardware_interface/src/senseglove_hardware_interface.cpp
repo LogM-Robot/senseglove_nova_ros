@@ -220,11 +220,16 @@ void SenseGloveHardwareInterface::reserveMemory()
     joint_last_buzz_command_[i].resize(5, 0.0);
   }
 
-  senseglove_state_pub_->msg_.joint_names.resize(num_gloves_ * num_joints_);
-  senseglove_state_pub_->msg_.position.resize(num_gloves_ * num_joints_);
-  senseglove_state_pub_->msg_.absolute_velocity.resize(num_gloves_ * num_joints_);
-  senseglove_state_pub_->msg_.hand_position.resize(num_gloves_ * num_joints_);
-  senseglove_state_pub_->msg_.finger_tip_positions.resize(5);
+  // senseglove_state_pub_->msg_.joint_names.resize(num_gloves_ * num_joints_);
+  // senseglove_state_pub_->msg_.position.resize(num_gloves_ * num_joints_);
+  // senseglove_state_pub_->msg_.absolute_velocity.resize(num_gloves_ * num_joints_);
+  // senseglove_state_pub_->msg_.hand_position.resize(num_gloves_ * num_joints_);
+  // senseglove_state_pub_->msg_.finger_tip_positions.resize(5);
+  senseglove_state_pub_->msg_.wrist_position.resize(num_gloves_);
+  senseglove_state_pub_->msg_.wrist_rotation.resize(num_gloves_);
+  senseglove_state_pub_->msg_.hand_angles.resize(num_gloves_ * 15);
+  senseglove_state_pub_->msg_.joint_positions.resize(num_gloves_ * num_joints_);
+  senseglove_state_pub_->msg_.joint_rotations.resize(num_gloves_ * num_joints_);
 }
 
 void SenseGloveHardwareInterface::updateSenseGloveState()
@@ -238,22 +243,34 @@ void SenseGloveHardwareInterface::updateSenseGloveState()
   for (size_t i = 0; i < num_gloves_; ++i)
   {
     senseglove::SenseGloveRobot& robot = senseglove_setup_->getSenseGloveRobot(i);
+    senseglove_state_pub_->msg_.wrist_position[i].x = robot.getWristPos().x;
+    senseglove_state_pub_->msg_.wrist_position[i].y = robot.getWristPos().y;
+    senseglove_state_pub_->msg_.wrist_position[i].z = robot.getWristPos().z;
+    senseglove_state_pub_->msg_.wrist_rotation[i].x = robot.getWristRot().x;
+    senseglove_state_pub_->msg_.wrist_rotation[i].y = robot.getWristRot().y;
+    senseglove_state_pub_->msg_.wrist_rotation[i].z = robot.getWristRot().z;
+    senseglove_state_pub_->msg_.wrist_rotation[i].w = robot.getWristRot().w;
     for (size_t k = 0; k < num_joints_; ++k)
     {
-      senseglove::Joint& joint = robot.getJoint(k);
-      senseglove_state_pub_->msg_.header.stamp = ros::Time::now();
-      senseglove_state_pub_->msg_.joint_names[i] = joint.getName();
-      senseglove_state_pub_->msg_.position[i] = joint.getPosition();
-      senseglove_state_pub_->msg_.absolute_velocity[i] = joint.getVelocity();
-      senseglove_state_pub_->msg_.hand_position[k].x = robot.getHandPos(k).x;
-      senseglove_state_pub_->msg_.hand_position[k].y = robot.getHandPos(k).y;
-      senseglove_state_pub_->msg_.hand_position[k].z = robot.getHandPos(k).z;
+      // senseglove::Joint& joint = robot.getJoint(k);
+      // senseglove_state_pub_->msg_.header.stamp = ros::Time::now();
+      // senseglove_state_pub_->msg_.joint_names[i] = joint.getName();
+      // senseglove_state_pub_->msg_.position[i] = joint.getPosition();
+      // senseglove_state_pub_->msg_.absolute_velocity[i] = joint.getVelocity();     
+      senseglove_state_pub_->msg_.joint_positions[k].x = robot.getJointPos(k).x;
+      senseglove_state_pub_->msg_.joint_positions[k].y = robot.getJointPos(k).y;
+      senseglove_state_pub_->msg_.joint_positions[k].z = robot.getJointPos(k).z;
+
+      senseglove_state_pub_->msg_.joint_rotations[k].x = robot.getJointRot(k).x;
+      senseglove_state_pub_->msg_.joint_rotations[k].y = robot.getJointRot(k).y;
+      senseglove_state_pub_->msg_.joint_rotations[k].z = robot.getJointRot(k).z;
+      senseglove_state_pub_->msg_.joint_rotations[k].w = robot.getJointRot(k).w;
     }
-    for (int j = 0; j < 5; ++j)
+    for (int j = 0; j < 5*3; ++j)
     {
-      senseglove_state_pub_->msg_.finger_tip_positions[j].x = robot.getFingerTip(j).x;
-      senseglove_state_pub_->msg_.finger_tip_positions[j].y = robot.getFingerTip(j).y;
-      senseglove_state_pub_->msg_.finger_tip_positions[j].z = robot.getFingerTip(j).z;
+      senseglove_state_pub_->msg_.hand_angles[j].x = robot.getHandAngles(j).x;
+      senseglove_state_pub_->msg_.hand_angles[j].y = robot.getHandAngles(j).y;
+      senseglove_state_pub_->msg_.hand_angles[j].z = robot.getHandAngles(j).z;
     }
   }
 

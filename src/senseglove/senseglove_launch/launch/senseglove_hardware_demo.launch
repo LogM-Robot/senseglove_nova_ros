@@ -4,13 +4,13 @@
     <arg name="both" value="$(eval arg('left') and arg('right'))"/>
 
     <include file="$(find senseglove_hardware_interface)/launch/hardware.launch" if="$(eval left)">
-        <arg name="robot" value="dk1_left"/>
+        <arg name="robot" value="nova"/>
         <arg name="nr_of_glove" value="0"/>
         <arg name="is_right" value="false"/>
     </include>
 
     <include file="$(find senseglove_hardware_interface)/launch/hardware.launch" if="$(eval both)">
-        <arg name="robot" value="dk1_right"/>
+        <arg name="robot" value="nova"/>
         <arg name="nr_of_glove" value="1"/>
         <arg name="is_right" value="true"/>
     </include>

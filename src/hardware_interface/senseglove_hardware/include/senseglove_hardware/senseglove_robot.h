@@ -3,7 +3,9 @@
 #define ROS_WORKSPACE_SENSEGLOVE_ROBOT_H
 
 #include "senseglove_hardware/joint.h"
-#include "SenseGlove.h"
+// #include "SenseGlove.h"
+#include "HapticGlove.h"
+#include "NovaGlove.h"
 #include "BasicHandModel.h"
 #include "HandPose.h"
 #include "DeviceList.h"
@@ -20,16 +22,22 @@ namespace senseglove
 class SenseGloveRobot
 {
 private:
-  SGCore::SG::SenseGlove senseglove_;
-  SGCore::SG::SG_GloveInfo model_;
-  SGCore::SG::SG_SensorData sensor_data_;
-  SGCore::SG::SG_GlovePose glove_pose_;
-  SGCore::SG::SG_HandProfile hand_profile_;
+  // SGCore::SG::SenseGlove senseglove_;
+  std::shared_ptr<SGCore::HapticGlove> senseglove_;
+  // SGCore::SG::SG_GloveInfo model_;
+  SGCore::Nova::Nova_SensorData sensor_data_;
+  // SGCore::SG::SG_GlovePose glove_pose_;
+  // SGCore::SG::SG_HandProfile hand_profile_;
+  SGCore::HandProfile hand_profile_;
   SGCore::Kinematics::BasicHandModel hand_model_;
-  std::vector<SGCore::Kinematics::Vect3D> tip_positions_;
+  // std::vector<SGCore::Kinematics::Vect3D> tip_positions_;
   SGCore::HandPose hand_pose_;
+  SGCore::Kinematics::Vect3D wrist_position_; 
+  SGCore::Kinematics::Quat wrist_rotation_;
+  SGCore::Kinematics::Vect3D trackerPosition = SGCore::Kinematics::Vect3D::zero; // TODO: Take these from your 3rd party API
+  SGCore::Kinematics::Quat trackerRotation = SGCore::Kinematics::Quat::identity; //TODO: Take these from your 3rd party API
   ::std::vector<Joint> joint_list_;
-  urdf::Model urdf_;
+  // urdf::Model urdf_;
   const std::string name_;
   const SGCore::DeviceType device_type_;
   const int robot_index_;
@@ -39,8 +47,13 @@ private:
 public:
   using iterator = std::vector<Joint>::iterator;
 
-  SenseGloveRobot(SGCore::SG::SenseGlove glove, ::std::vector<Joint> jointList, urdf::Model urdf, int robotIndex,
-                  bool is_right);
+  SenseGloveRobot(
+    std::shared_ptr<SGCore::HapticGlove> glove, 
+    ::std::vector<Joint> jointList, 
+    // urdf::Model urdf, 
+    int robotIndex,
+    bool is_right
+  );
 
   ~SenseGloveRobot();
 
@@ -60,8 +73,19 @@ public:
 
   Joint& getJoint(size_t index);
 
-  SGCore::Kinematics::Vect3D getHandPos(int i);
-  SGCore::Kinematics::Vect3D getFingerTip(int i);
+  SGCore::Kinematics::Vect3D getWristPos();
+
+  SGCore::Kinematics::Quat   getWristRot();
+
+  // SGCore::Kinematics::Vect3D getHandPos(int i);
+
+  SGCore::Kinematics::Vect3D getHandAngles(int i);
+
+  SGCore::Kinematics::Vect3D getJointPos(int i);
+
+  SGCore::Kinematics::Quat   getJointRot(int i);
+
+  // SGCore::Kinematics::Vect3D getFingerTip(int i);
 
   // ros control works exclusively with doubles, but the sendHaptics function works with integers
   void actuateEffort(std::vector<double> effort_command);
@@ -75,7 +99,7 @@ public:
   iterator begin();
   iterator end();
 
-  const urdf::Model& getUrdf() const;
+  // const urdf::Model& getUrdf() const;
 
   bool updateGloveData(const ros::Duration period);
 

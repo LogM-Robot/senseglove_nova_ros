@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(senseglove_hardware)
 
-add_compile_options(-std=c++14 -Wall -Wextra -Werror)
+add_compile_options(-std=c++14)
 
 find_package(catkin REQUIRED COMPONENTS
         roscpp

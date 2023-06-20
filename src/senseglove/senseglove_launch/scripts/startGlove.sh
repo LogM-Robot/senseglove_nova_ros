@@ -8,7 +8,7 @@ $1/SenseCom/Linux/SenseCom.x86_64 &
 sleep 15
 
 # Start SenseGlove node
-source ~/.bashrc
+source ~/Documents/ROS1_workspaces/senseglove_nova_ros/devel/setup.bash
 roslaunch senseglove_launch senseglove_hardware_demo.launch left:=$2 right:=$3
 
 # Kill SenseComm when node is killed

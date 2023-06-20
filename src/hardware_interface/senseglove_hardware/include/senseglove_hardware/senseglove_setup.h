@@ -3,7 +3,8 @@
 #define ROS_WORKSPACE_SENSEGLOVE_SETUP_H
 
 #include "senseglove_hardware/joint.h"
-#include "SenseGlove.h"
+// #include "SenseGlove.h"
+#include "HapticGlove.h"
 
 #include <cstdint>
 #include <memory>
@@ -51,7 +52,7 @@ public:
   iterator begin();
   iterator end();
 
-  const urdf::Model& getRobotUrdf(std::string glove_robot_name);
+  // const urdf::Model& getRobotUrdf(std::string glove_robot_name);
 
   /** @brief Override comparison operator */
   friend bool operator==(const SenseGloveSetup& lhs, const SenseGloveSetup& rhs)
