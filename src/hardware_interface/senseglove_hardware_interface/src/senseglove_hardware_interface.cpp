@@ -26,8 +26,7 @@ bool SenseGloveHardwareInterface::init(ros::NodeHandle& nh, ros::NodeHandle& /* 
   this->senseglove_state_pub_ =
       std::make_unique<realtime_tools::RealtimePublisher<senseglove_shared_resources::SenseGloveState>>(
           nh,
-          "/" + this->senseglove_setup_->getSenseGloveRobot(0).getName() +
-              handedness[this->senseglove_setup_->getSenseGloveRobot(0).getRight()] + "/senseglove_states/",
+          "/" + this->senseglove_setup_->getSenseGloveRobot(0).getName() + handedness[this->senseglove_setup_->getSenseGloveRobot(0).getRight()] + "/senseglove_states/",
           1);
 
   this->uploadJointNames(nh);
@@ -47,8 +46,7 @@ bool SenseGloveHardwareInterface::init(ros::NodeHandle& nh, ros::NodeHandle& /* 
       ROS_DEBUG_STREAM("Obtained necessary joint");
 
       // Create joint state interface
-      JointStateHandle joint_state_handle(joint.getName(), &joint_position_[i][k], &joint_velocity_[i][k],
-                                          &joint_effort_[i][k]);
+      JointStateHandle joint_state_handle(joint.getName(), &joint_position_[i][k], &joint_velocity_[i][k], &joint_effort_[i][k]);
       ROS_DEBUG_STREAM("joint state interface handle created");
       joint_state_interface_.registerHandle(joint_state_handle);
       ROS_DEBUG_STREAM("joint state interface handle registered");
