@@ -9,4 +9,4 @@ install(DIRECTORY launch scripts
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
         )
 
-install(PROGRAMS scripts/startGlove.sh DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+install(PROGRAMS scripts/startGlove.sh scripts/connectGlove.sh DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

@@ -26,7 +26,7 @@ class Trajectory(object):
         self._goal = FollowJointTrajectoryGoal()
         self._goal_time_tolerance = rospy.Time(goal_time_tol)
         self._goal.goal_time_tolerance = self._goal_time_tolerance
-        server_up = self._client.wait_for_server(timeout=rospy.Duration(10.0))
+        server_up = self._client.wait_for_server(timeout=rospy.Duration(1.0))
         if not server_up:
             rospy.logerr("Timed out waiting for Joint Trajectory"
                          " Action Server to connect. Start the action server"
@@ -71,23 +71,23 @@ def main():
     action_ns = ns + 'trajectory/'
     if rospy.has_param(action_ns + 'joints'):
         joint_list = rospy.get_param(action_ns + 'joints')
-    publish_rate = 1
+    publish_rate = 90
     if rospy.has_param(ns + 'hand_state/publish_rate'):
         publish_rate = rospy.get_param(ns + 'hand_state/publish_rate')
 
     rate = rospy.Rate(publish_rate)
-    n_sec = 0.01
+    n_sec = 0.0001
 
     i = 0
-    f = 10  # Hz
+    f = 2  # Hz
     amp = 50  # percentage
     wave = np.linspace(0, np.pi * f, 201)
     rand_traj_points = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # what you will!
     while not rospy.is_shutdown():
         if i >= 201:
             i = 0
-        traj = Trajectory(ns=action_ns, joint_names=joint_list, goal_time_tol=1.0, timeout=0.001)
-        rand_traj_points[0] = amp * np.sin(wave[i]) + amp
+        traj = Trajectory(ns=action_ns, joint_names=joint_list, goal_time_tol=0.01, timeout=0.001)
+        rand_traj_points[6] = amp * np.sin(wave[i]) + amp
         traj.add_point(rand_traj_points, n_sec)
         traj.start()
         traj.wait()

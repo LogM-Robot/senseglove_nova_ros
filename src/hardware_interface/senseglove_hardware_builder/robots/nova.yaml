@@ -1,130 +1,130 @@
 # fino:
 nova:
   deviceType: 2
-  communicationCycleTime: 10
+#   communicationCycleTime: 10
   joints:
-    - tumbCMC:
+    - thumbCMC:
         jointIndex: 0
         actuationMode: position
-        allowActuation: false
+        allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - thumbMCP:
         jointIndex: 1
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - thumbIP:
         jointIndex: 2
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - thumbBrake:
         jointIndex: 3
         actuationMode: position
         allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
 
     - indexMCP:
         jointIndex: 4
         actuationMode: position
-        allowActuation: false
+        allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - indexPIP:
         jointIndex: 5
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - indexDIP:
         jointIndex: 6
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - indexBrake:
         jointIndex: 7
         actuationMode: position
         allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
 
     - middleMCP:
         jointIndex: 8
         actuationMode: position
-        allowActuation: false
+        allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - middlePIP:
         jointIndex: 9
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - middleDIP:
         jointIndex: 10
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - middleBrake:
         jointIndex: 11
         actuationMode: position
         allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
 
 
     - ringMCP:
         jointIndex: 12
         actuationMode: position
-        allowActuation: false
+        allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - ringPIP:
         jointIndex: 13
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - ringDIP:
         jointIndex: 14
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - ringBrake:
         jointIndex: 15
         actuationMode: position
         allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
 
     - pinkyMCP:
         jointIndex: 16
         actuationMode: position
-        allowActuation: false
+        allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - pinkyPIP:
         jointIndex: 17
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - pinkyDIP:
         jointIndex: 18
         actuationMode: position
         allowActuation: false
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100
     - pinkyBrake:
         jointIndex: 19
         actuationMode: position
         allowActuation: true
         minPosition: 0
-        maxPosition: 1
+        maxPosition: 100

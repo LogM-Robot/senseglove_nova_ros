@@ -69,9 +69,13 @@ public:
   int getIndex() const;
   bool getRight();
 
+  void calibrteHandProfile();
+
   Joint& getJoint(::std::string jointName);
 
   Joint& getJoint(size_t index);
+
+  void updateTrackerData(SGCore::Kinematics::Vect3D position, SGCore::Kinematics::Quat rotation);
 
   SGCore::Kinematics::Vect3D getWristPos();
 
@@ -92,6 +96,7 @@ public:
   void actuateEffort(double e_0, double e_1, double e_2, double e_3, double e_4);
   void actuateBuzz(std::vector<double> buzz_command);
   void actuateBuzz(double b_0, double b_1, double b_2, double b_3, double b_4);
+  void actuateEffortBuzz(std::vector<double> effort_command, std::vector<double> buzz_command);
   void stopActuating();
 
   size_t size() const;

@@ -47,7 +47,7 @@ class FingerTipHandler:
 
     def calibrate_service(self, call):
         # Stop publishing commands & feedback
-        print("Executing calibration service")
+        rospy.loginfo("Executing calibration service")
         self.calibrating = True
 
         old_calib = self.calibration
@@ -79,14 +79,12 @@ class FingerTipHandler:
 
     def distance_publish(self):
         finger_distance_message = FingerDistanceFloats()
-        finger_distance_message.th_ff.data = self.apply_calib((self.finger_tips[0] - self.finger_tips[1]).magnitude(),
-                                                              0, self.calib_mode)
-        finger_distance_message.th_mf.data = self.apply_calib((self.finger_tips[0] - self.finger_tips[2]).magnitude(),
-                                                              1, self.calib_mode)
-        finger_distance_message.th_rf.data = self.apply_calib((self.finger_tips[0] - self.finger_tips[3]).magnitude(),
-                                                              2, self.calib_mode)
+        finger_distance_message.th_ff.data = self.apply_calib((self.finger_tips[0] - self.finger_tips[1]).magnitude(), 0, self.calib_mode)
+        finger_distance_message.th_mf.data = self.apply_calib((self.finger_tips[0] - self.finger_tips[2]).magnitude(), 1, self.calib_mode)
+        finger_distance_message.th_rf.data = self.apply_calib((self.finger_tips[0] - self.finger_tips[3]).magnitude(), 2, self.calib_mode)
         finger_distance_message.th_lf.data = (self.finger_tips[0] - self.finger_tips[4]).magnitude()
         self.pub.publish(finger_distance_message)
+        rospy.loginfo("Published finger distances: %s", finger_distance_message)
 
     def callback(self, data):
         if not self.calibration.is_calibrated():
@@ -100,9 +98,12 @@ class FingerTipHandler:
                 rospy.logwarn_once("No calibration data found when publishing fingerdistances, using defaults")
 
         for i in range(len(self.finger_nrs)):
-            self.finger_tips[i].x = data.finger_tip_positions[i].x
-            self.finger_tips[i].y = data.finger_tip_positions[i].y
-            self.finger_tips[i].z = data.finger_tip_positions[i].z
+            # self.finger_tips[i].x = data.finger_tip_positions[i].x
+            # self.finger_tips[i].y = data.finger_tip_positions[i].y
+            # self.finger_tips[i].z = data.finger_tip_positions[i].z
+            self.finger_tips[i].x = data.joint_positions[i*4+3].x
+            self.finger_tips[i].y = data.joint_positions[i*4+3].y
+            self.finger_tips[i].z = data.joint_positions[i*4+3].z
         self.distance_publish()
 
 

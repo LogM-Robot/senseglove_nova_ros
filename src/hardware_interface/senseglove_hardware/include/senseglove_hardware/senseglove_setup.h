@@ -5,6 +5,7 @@
 #include "senseglove_hardware/joint.h"
 // #include "SenseGlove.h"
 #include "HapticGlove.h"
+#include "SenseCom.h"
 
 #include <cstdint>
 #include <memory>

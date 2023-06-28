@@ -28,6 +28,9 @@ bool SenseGloveHardwareInterface::init(ros::NodeHandle& nh, ros::NodeHandle& /* 
           nh,
           "/" + this->senseglove_setup_->getSenseGloveRobot(0).getName() + handedness[this->senseglove_setup_->getSenseGloveRobot(0).getRight()] + "/senseglove_states/",
           1);
+  
+  this->vive_tracker_sub_ = std::make_unique<ros::Subscriber>(nh.subscribe("/" + this->senseglove_setup_->getSenseGloveRobot(0).getName() + handedness[this->senseglove_setup_->getSenseGloveRobot(0).getRight()] + "/vive_tracker_pose", 1, &SenseGloveHardwareInterface::viveTrackerCallback, this));
+  // this->vive_tracker_sub_ = std::make_unique<ros::Subscriber>(nh.subscribe("/vive/LHR_D381725E_pose", 1, &SenseGloveHardwareInterface::viveTrackerCallback, this));
 
   this->uploadJointNames(nh);
 
@@ -97,6 +100,8 @@ bool SenseGloveHardwareInterface::init(ros::NodeHandle& nh, ros::NodeHandle& /* 
   this->registerInterface(&this->position_joint_interface_);
   this->registerInterface(&this->effort_joint_interface_);
 
+  this->calibrate();
+
   return true;
 }
 
@@ -153,8 +158,16 @@ void SenseGloveHardwareInterface::write(const ros::Time& /* time */, const ros::
 
           if (j == 9)  // actuators 0 - 9
           {
-            robot.actuateEffort(joint_last_position_command_[i]);
-            robot.actuateBuzz(joint_last_buzz_command_[i]);
+            // robot.actuateEffort(joint_last_position_command_[i]);
+            // robot.actuateBuzz(joint_last_buzz_command_[i]);
+            robot.actuateEffortBuzz(joint_last_position_command_[i], joint_last_buzz_command_[i]);
+            // std::vector<double> temp = joint_last_position_command_[i];
+            // std::stringstream ss;
+            // ss << "Data Retrieved: \n";
+            // std::copy(temp.begin(), temp.end(), std::ostream_iterator<double>(ss, " "));
+            // ss << std::endl;
+            // ROS_INFO_STREAM("joint_last_position_command_[i]: \n" << ss.str());
+            
           }
         }
         else if (joint.getActuationMode() == senseglove::ActuationMode::torque)
@@ -181,6 +194,32 @@ void SenseGloveHardwareInterface::write(const ros::Time& /* time */, const ros::
     j = 0;
     h = 0;
   }
+}
+
+void SenseGloveHardwareInterface::calibrate()
+{
+  for (size_t i = 0; i < num_gloves_; ++i)
+  {
+    senseglove::SenseGloveRobot& robot = senseglove_setup_->getSenseGloveRobot(i);
+    robot.calibrteHandProfile();
+  }
+}
+
+void SenseGloveHardwareInterface::viveTrackerCallback(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
+{
+  ROS_INFO("Tracker data received");
+  senseglove::SenseGloveRobot& robot = senseglove_setup_->getSenseGloveRobot(0);
+  SGCore::Kinematics::Vect3D tracker_position;
+  SGCore::Kinematics::Quat tracker_rotation;
+  tracker_position.x = msg->pose.pose.position.x;
+  tracker_position.y = msg->pose.pose.position.y;
+  tracker_position.z = msg->pose.pose.position.z;
+  tracker_rotation.x = msg->pose.pose.orientation.x;
+  tracker_rotation.y = msg->pose.pose.orientation.y;
+  tracker_rotation.z = msg->pose.pose.orientation.z;
+  tracker_rotation.w = msg->pose.pose.orientation.w;
+  robot.updateTrackerData(tracker_position, tracker_rotation);
+  
 }
 
 void SenseGloveHardwareInterface::uploadJointNames(ros::NodeHandle& nh) const
@@ -274,3 +313,5 @@ void SenseGloveHardwareInterface::updateSenseGloveState()
 
   senseglove_state_pub_->unlockAndPublish();
 }
+
+

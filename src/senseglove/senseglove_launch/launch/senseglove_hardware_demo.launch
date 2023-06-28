@@ -2,22 +2,27 @@
     <arg name="left" default="false"/>
     <arg name="right" default="true"/>
     <arg name="both" value="$(eval arg('left') and arg('right'))"/>
+    <arg name="tracker_L_serial" default="LHR_D381725E"/>
+    <arg name="tracker_R_serial" default="LHR_D381725E"/>
 
     <include file="$(find senseglove_hardware_interface)/launch/hardware.launch" if="$(eval left)">
         <arg name="robot" value="nova"/>
         <arg name="nr_of_glove" value="0"/>
         <arg name="is_right" value="false"/>
+        <arg name="tracker_serial" value="$(arg tracker_L_serial)" />
     </include>
 
     <include file="$(find senseglove_hardware_interface)/launch/hardware.launch" if="$(eval both)">
         <arg name="robot" value="nova"/>
         <arg name="nr_of_glove" value="1"/>
         <arg name="is_right" value="true"/>
+        <arg name="tracker_serial" value="$(arg tracker_R_serial)" />
     </include>
 
     <include file="$(find senseglove_hardware_interface)/launch/hardware.launch" if="$(eval both==false and right==true)">
         <arg name="robot" value="nova"/>
         <arg name="nr_of_glove" value="0"/>
         <arg name="is_right" value="true"/>
+        <arg name="tracker_serial" value="$(arg tracker_R_serial)" />
     </include>
 </launch>

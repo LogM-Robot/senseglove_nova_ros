@@ -10,6 +10,7 @@
 #include <hardware_interface/robot_hw.h>
 #include <realtime_tools/realtime_publisher.h>
 #include <ros/ros.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
 
 #include <senseglove_hardware/senseglove_robot.h>
 #include <senseglove_hardware/senseglove_setup.h>
@@ -18,6 +19,8 @@
 
 template <typename T>
 using RtPublisherPtr = std::unique_ptr<realtime_tools::RealtimePublisher<T>>;
+
+using SubscriberPtr = std::unique_ptr<ros::Subscriber>;
 
 /**
  * @brief HardwareInterface to allow ros_control to actuate our hardware.
@@ -55,6 +58,8 @@ public:
    * @param elapsed_time Duration since last write action
    */
   void write(const ros::Time& /*time*/, const ros::Duration& /*elapsed_time*/) override;
+
+  void calibrate();
 
 private:
   void uploadJointNames(ros::NodeHandle& nh) const;
@@ -96,6 +101,9 @@ private:
   bool has_actuated_ = false;
 
   RtPublisherPtr<senseglove_shared_resources::SenseGloveState> senseglove_state_pub_;
+  SubscriberPtr vive_tracker_sub_;
+  // void viveTrackerCallback(const geometry_msgs::PoseStampedConstPtr& msg);
+  void viveTrackerCallback(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
 };
 
 #endif  // ROS_WORKSPACE_SG_HARDWARE_INTERFACE_H

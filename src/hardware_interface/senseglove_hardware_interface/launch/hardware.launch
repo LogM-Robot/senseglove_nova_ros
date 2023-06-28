@@ -2,57 +2,50 @@
     <arg name="robot" default="nova" doc="The robot to run. Can be _left/_right of: dk1, nova, unknown."/>
     <arg name="nr_of_glove" default="1" doc="specify the number of the glove, it's an identifier. Not the amount of gloves connected."/>
     <arg name="is_right" default="true" doc="specify the righthandedness of the glove"/>
+    <arg name="tracker_serial" default="LHR_D381725E" doc="specify the serial of the VIVE tracker"/>
 
     <group ns="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/rh')" if="$(eval is_right)">
 
-        <!-- <param name="robot_description" textfile="$(find senseglove_description)/urdf/$(arg robot).urdf" if="$(eval arg('is_right')==true)"/>
+        <param name="robot_description" textfile="$(find senseglove_description)/urdf/$(arg robot).urdf" if="$(eval arg('is_right')==true)"/>
 
-        <rosparam file="$(find senseglove_hardware_interface)/config/$(arg robot)/controllers.yaml" command="load"/> -->
+        <rosparam file="$(find senseglove_hardware_interface)/config/$(arg robot)/controllers.yaml" command="load"/>
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-            <param name="publish_frequency" value="20"/>
+            <param name="publish_frequency" value="30"/>
         </node>
 
         <node name="controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false"
               output="screen"
               ns="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/rh')"
-              args="spawn controller/joint_state controller/trajectory"
+              args="spawn controller/hand_state controller/trajectory"
         />
 
         <node
                 name="hardware_interface"
                 pkg="senseglove_hardware_interface"
                 type="senseglove_hardware_interface_node"
-                args="$(arg robot) $(arg nr_of_glove) $(arg is_right)"
+                args="$(arg robot) $(arg nr_of_glove) $(arg is_right)"             
                 output="screen"
                 required="true"
         >
+            <remap from="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/rh' + '/vive_tracker_pose')"  to="/vive/$(arg tracker_serial)_pose" />
         </node>
     </group>
 
     <group ns="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/lh')" unless="$(eval is_right)">
 
-        <param name="robot_description" textfile="$(find senseglove_description)/urdf/dk1_right.urdf" if="$(eval arg('is_right')==false)"/>
+        <param name="robot_description" textfile="$(find senseglove_description)/urdf/$(arg robot).urdf" if="$(eval arg('is_right')==false)"/>
 
         <rosparam file="$(find senseglove_hardware_interface)/config/$(arg robot)/controllers.yaml" command="load"/>
 
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
             <param name="publish_frequency" value="30"/>
         </node>
 
         <node name="controller_spawner" pkg="controller_manager" type="controller_manager" respawn="false"
               output="screen"
               ns="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/lh')"
-              args="
-                spawn 
-                $(arg robot)/controller/hand_state 
-              "
+              args="spawn controller/hand_state controller/trajectory"
         />
-        <!-- <node 
-            name="controller_spawner" 
-            pkg="controller_manager" type="spawner" respawn="false" output="screen"
-            ns="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/lh')"
-            args="controller/glove_state controller/trajectory"
-        /> -->
 
         <node
                 name="hardware_interface"
@@ -62,6 +55,7 @@
                 output="screen"
                 required="true"
         >
+            <remap from="$(eval '/senseglove/' + str(int(arg('nr_of_glove')/2)) + '/lh' + '/vive_tracker_pose')" to="/vive/$(arg tracker_serial)_pose" />
         </node>
     </group>
 </launch>

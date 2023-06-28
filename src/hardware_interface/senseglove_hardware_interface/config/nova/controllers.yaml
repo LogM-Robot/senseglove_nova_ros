@@ -1,17 +1,22 @@
-nova:
-  controller:
-    glove_state:
-      type: joint_state_controller/JointStateController
-      publish_rate: 30
-    hand_state:
-      type: joint_state_controller/JointStateController
-      publish_rate: 30
-    trajectory:
-      type: position_controllers/JointTrajectoryController
-      allow_partial_joints_goal: true
-      joints:
-        - thumbBrake
-        - indexBrake
-        - middleBrake
-        - ringBrake
-        - pinkyBrake
+controller:
+  glove_state:
+    type: joint_state_controller/JointStateController
+    publish_rate: 60
+  hand_state:
+    type: joint_state_controller/JointStateController
+    publish_rate: 60
+  trajectory:
+    type: position_controllers/JointTrajectoryController
+    allow_partial_joints_goal: true
+    state_publish_rate: 60
+    joints:
+      - thumbBrake # FFB
+      - indexBrake
+      - middleBrake
+      - ringBrake
+      - pinkyBrake
+      - thumbCMC # Buzzer
+      - indexMCP
+      - middleMCP
+      - ringMCP
+      - pinkyMCP
