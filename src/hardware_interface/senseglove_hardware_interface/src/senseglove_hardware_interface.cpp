@@ -207,13 +207,13 @@ void SenseGloveHardwareInterface::calibrate()
 
 void SenseGloveHardwareInterface::viveTrackerCallback(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg)
 {
-  ROS_INFO("Tracker data received");
+  // ROS_INFO("Tracker data received");
   senseglove::SenseGloveRobot& robot = senseglove_setup_->getSenseGloveRobot(0);
   SGCore::Kinematics::Vect3D tracker_position;
   SGCore::Kinematics::Quat tracker_rotation;
-  tracker_position.x = msg->pose.pose.position.x;
-  tracker_position.y = msg->pose.pose.position.y;
-  tracker_position.z = msg->pose.pose.position.z;
+  tracker_position.x = msg->pose.pose.position.x * 1000;
+  tracker_position.y = msg->pose.pose.position.y * 1000;
+  tracker_position.z = msg->pose.pose.position.z * 1000;
   tracker_rotation.x = msg->pose.pose.orientation.x;
   tracker_rotation.y = msg->pose.pose.orientation.y;
   tracker_rotation.z = msg->pose.pose.orientation.z;
