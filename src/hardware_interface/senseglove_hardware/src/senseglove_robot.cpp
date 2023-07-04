@@ -80,7 +80,7 @@ void SenseGloveRobot::calibrteHandProfile()
 			senseglove_->UpdateCalibrationRange(); // Instead of this method, you can also use the GetSensorData(), GetGlovePose() or GetHandPose function instead.
 
 
-			// Step 2: Fist - Calibrates flexion
+			// Step 2: Fist - Calibrates 3-finger flexion
 			std::cout << std::endl;
 			std::cout << "Step 2: Close your hand into a fist. Make sure your fingers aren't wrapped around your thumb." << std::endl;
 			std::cout << "Once your hand is in the right position, press any key to continue" << std::endl;
@@ -89,6 +89,32 @@ void SenseGloveRobot::calibrteHandProfile()
 			// This function updates the calibration range of senseglove_. 
 			senseglove_->UpdateCalibrationRange();
 
+      // Step 3: make 4 gesture - Calibrates thumb flexion
+			std::cout << std::endl;
+			std::cout << "Step 3: bend your thumb to the MCP of pinky. Make sure your thumb's CMC & PIP is in fully flexion" << std::endl;
+			std::cout << "Once your hand is in the right position, press any key to continue" << std::endl;
+			std::cin.get();
+
+			// This function updates the calibration range of senseglove_. 
+			senseglove_->UpdateCalibrationRange();
+
+      // Step 4:  Calibrates thumb CMC Adduction
+			std::cout << std::endl;
+			std::cout << "Step 4: extend your thumb to the side of index finger. Make sure your thumb's CMC is in fully adduction" << std::endl;
+			std::cout << "Once your hand is in the right position, press any key to continue" << std::endl;
+			std::cin.get();
+
+			// This function updates the calibration range of senseglove_. 
+			senseglove_->UpdateCalibrationRange();
+
+      // Step 5:  Calibrates thumb CMC Abduction
+			std::cout << std::endl;
+			std::cout << "Step 5: stretch your thumb away from the side of index finger. Make sure your thumb's CMC is in fully abduction" << std::endl;
+			std::cout << "Once your hand is in the right position, press any key to continue" << std::endl;
+			std::cin.get();
+
+			// This function updates the calibration range of senseglove_. 
+			senseglove_->UpdateCalibrationRange();
 
 			// At this point, we've collected data while the hand was open, and when it was closed. 
 			// The calibration range should now have the two extremes to interpolate between.
