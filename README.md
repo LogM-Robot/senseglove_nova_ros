@@ -54,7 +54,7 @@ This practice will allow others to troubleshoot their own problems quicker.
 1. source your workspace
 2. make sure your sensegloves are connected through usb or bluetooth
     1. if you checked your connection with sensecom, be sure to exit the application before proceeding
-3. run: `roslaunch senseglove_demo.launch`
+3. run: `roslaunch senseglove_launch nova_vive.launch left:=<true/false> right:=<true/false> tracker_L_serial:=<SERIAL_LEFT> tracker_R_serial:=<SERIAL_RIGHT>`
 
 A bash script is called invoking sensecom and running the hardware interface node twice for a left- and a right-handed glove.
 If all is well, your invocation of the roslaunch command should have started a roscore session and all necessary nodes providing intefaces to the senseglove.

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo bash ~/sgc.sh &
+sudo bash ~/sgc.sh $6 &
 
 # Start SenseCom
 chmod +x $1/SenseCom/Linux/SenseCom.x86_64
@@ -16,4 +16,4 @@ roslaunch senseglove_launch senseglove_hardware_demo.launch left:=$2 right:=$3 t
 
 # Kill SenseComm when node is killed
 killall -9 SenseCom.x86_64
-sudo bash ~/sgd.sh
+sudo bash ~/sgd.sh $6
