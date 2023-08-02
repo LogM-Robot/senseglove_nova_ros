@@ -1,13 +1,15 @@
 <launch>
-    <arg name="left" default="true"/>
-    <arg name="right" default="false"/>
+    <arg name="left" default="false"/>
+    <arg name="right" default="true"/>
     <!-- <arg name="both" value="$(eval arg('left') and arg('right'))"/> -->
-    <arg name="tracker_L_serial" default="LHR_D381725E" doc="specify the serial of the VIVE tracker on left wrist"/>
-    <arg name="tracker_R_serial" default="LHR_D7F8A268" doc="specify the serial of the VIVE tracker on right wrist"/>
+    <!-- <arg name="tracker_L_serial" default="LHR_D381725E" doc="specify the serial of the VIVE tracker on left wrist"/>
+    <arg name="tracker_R_serial" default="LHR_D7F8A268" doc="specify the serial of the VIVE tracker on right wrist"/> -->
+    <arg name="tracker_R_serial" default="LHR_D381725E" doc="specify the serial of the VIVE tracker on left wrist"/>
+    <arg name="tracker_L_serial" default="LHR_D7F8A268" doc="specify the serial of the VIVE tracker on right wrist"/>
 
     <include file="$(find vive_tracker)/launch/vive_tracker.launch" />
 
-    <node pkg="senseglove_launch" type="connectGlove.sh" name="connectGlove" args="$(find senseglove_hardware) $(arg left) $(arg right) $(arg tracker_L_serial) $(arg tracker_R_serial) $(arg right)" output="screen" respawn="false" />
+    <node pkg="senseglove_launch" type="connectGlove.sh" name="connectGlove" args="$(find senseglove_hardware) $(arg left) $(arg right) $(arg tracker_L_serial) $(arg tracker_R_serial) $(find senseglove_launch)" output="screen" respawn="false" />
 
 
 </launch>

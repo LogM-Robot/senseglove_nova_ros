@@ -82,7 +82,7 @@ std::unique_ptr<senseglove::SenseGloveSetup> HardwareBuilder::createSenseGloveSe
 	senseglove::SenseGloveRobot sensegloves = HardwareBuilder::createRobot(config, std::move(joints), current_glove, nr_of_glove_, is_right_);
 	ROS_INFO_STREAM("Created Robots " << sensegloves.getName() << ", " << nr_of_glove_ << ", is right: "
 																		<< sensegloves.getRight() << " is urdfright: " << current_glove->IsRight());
-	ROS_INFO_STREAM("Robot config:\n" << config);
+	// ROS_INFO_STREAM("Robot config:\n" << config);
 	return std::make_unique<senseglove::SenseGloveSetup>(std::move(sensegloves));
 }
 

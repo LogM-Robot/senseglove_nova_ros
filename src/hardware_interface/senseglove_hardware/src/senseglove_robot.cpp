@@ -17,6 +17,7 @@
 #include "DeviceList.h"
 #include "SenseCom.h"
 
+
 namespace senseglove
 {
 SenseGloveRobot::SenseGloveRobot(
@@ -58,9 +59,9 @@ void SenseGloveRobot::calibrteHandProfile()
 {
   if (SGCore::SenseCom::ScanningActive()) //check if the Sense Comm is running. If not, warn the end user.
 	{
-		if (SGCore::HapticGlove::GetGlove(senseglove_))
+		if (SGCore::HapticGlove::GetGlove(this->senseglove_))
 		{
-			std::cout << "Connected to a " << (senseglove_->IsRight() ? "right" : "left") << "-handed SenseGlove. Staring calibration" << std::endl;
+			std::cout << "Connected to a " << (this->senseglove_->IsRight() ? "right" : "left") << "-handed SenseGlove. Staring calibration" << std::endl;
 
 			/* 
 			Our goal is to find the min / max sensor values, which correspond to the user opening their hand and making a fist.
@@ -77,7 +78,7 @@ void SenseGloveRobot::calibrteHandProfile()
 			std::cin.get();
 			
 			// This function updates the calibration range of senseglove_.
-			senseglove_->UpdateCalibrationRange(); // Instead of this method, you can also use the GetSensorData(), GetGlovePose() or GetHandPose function instead.
+			this->senseglove_->UpdateCalibrationRange(); // Instead of this method, you can also use the GetSensorData(), GetGlovePose() or GetHandPose function instead.
 
 
 			// Step 2: Fist - Calibrates 3-finger flexion
@@ -87,7 +88,7 @@ void SenseGloveRobot::calibrteHandProfile()
 			std::cin.get();
 
 			// This function updates the calibration range of senseglove_. 
-			senseglove_->UpdateCalibrationRange();
+			this->senseglove_->UpdateCalibrationRange();
 
       // Step 3: make 4 gesture - Calibrates thumb flexion
 			std::cout << std::endl;
@@ -96,7 +97,7 @@ void SenseGloveRobot::calibrteHandProfile()
 			std::cin.get();
 
 			// This function updates the calibration range of senseglove_. 
-			senseglove_->UpdateCalibrationRange();
+			this->senseglove_->UpdateCalibrationRange();
 
       // Step 4:  Calibrates thumb CMC Adduction
 			std::cout << std::endl;
@@ -105,7 +106,7 @@ void SenseGloveRobot::calibrteHandProfile()
 			std::cin.get();
 
 			// This function updates the calibration range of senseglove_. 
-			senseglove_->UpdateCalibrationRange();
+			this->senseglove_->UpdateCalibrationRange();
 
       // Step 5:  Calibrates thumb CMC Abduction
 			std::cout << std::endl;
@@ -114,13 +115,13 @@ void SenseGloveRobot::calibrteHandProfile()
 			std::cin.get();
 
 			// This function updates the calibration range of senseglove_. 
-			senseglove_->UpdateCalibrationRange();
+			this->senseglove_->UpdateCalibrationRange();
 
 			// At this point, we've collected data while the hand was open, and when it was closed. 
 			// The calibration range should now have the two extremes to interpolate between.
 			// Let's check & ouput the ranges:
 			std::vector<SGCore::Kinematics::Vect3D> minRanges, maxRanges;
-			senseglove_->GetCalibrationRange(minRanges, maxRanges);
+			this->senseglove_->GetCalibrationRange(minRanges, maxRanges);
 			
 			// The calibration ranges contain the x, y, z values, which represent the pronation/supination, flexion/extension, and abduction/adduction movements respectively, in radians. 
 			// For readability's sake, we'll print out the flexion/extension values in degrees.
@@ -141,11 +142,11 @@ void SenseGloveRobot::calibrteHandProfile()
 			std::cout << std::endl;
 
 			// Now we apply the calibration to the default profile
-			senseglove_->ApplyCalibration(hand_profile_);
+			this->senseglove_->ApplyCalibration(hand_profile_);
 
 			// And can now use it to calculate handPoses
 			SGCore::HandPose handPose;
-			if (senseglove_->GetHandPose(hand_profile_, handPose))
+			if (this->senseglove_->GetHandPose(hand_profile_, handPose))
 			{
 				std::cout << std::endl << "With these ranges, we've calculated the following hand angles:" << std::endl;
 				std::cout << handPose.ToString() << std::endl;
@@ -364,10 +365,27 @@ bool SenseGloveRobot::updateGloveData(const ros::Duration period)
   // }
 
   // Get wrist location
-  senseglove_->GetWristLocation(this->trackerPosition, this->trackerRotation, SGCore::PosTrackingHardware::ViveTracker, this->wrist_position_, this->wrist_rotation_);
+  this->senseglove_->GetWristLocation(this->trackerPosition, this->trackerRotation, SGCore::PosTrackingHardware::ViveTracker, this->wrist_position_, this->wrist_rotation_);
+  // this->novaglove_->CalculateWristLocation(this->trackerPosition, this->trackerRotation, SGCore::PosTrackingHardware::ViveTracker, true, this->wrist_position_, this->wrist_rotation_);
+
+  // SGCore::Kinematics::Vect3D L_pos_offset;
+  // SGCore::Kinematics::Quat L_rot_offset;
+  // SGCore::Kinematics::Vect3D R_pos_offset;
+  // SGCore::Kinematics::Quat R_rot_offset;
+  // this->tracking_.GetNovaOffset_Tracker_Glove(SGCore::PosTrackingHardware::ViveTracker, false, L_pos_offset, L_rot_offset);
+  // this->tracking_.GetNovaOffset_Tracker_Glove(SGCore::PosTrackingHardware::ViveTracker, true, R_pos_offset, R_rot_offset);
+  // if (this->is_right_)
+  // {
+  //   this->tracking_.CalculateLocation(this->trackerPosition, this->trackerRotation, R_pos_offset, R_rot_offset, this->wrist_position_, this->wrist_rotation_);
+  // }
+  // else
+  // {
+  //   this->tracking_.CalculateLocation(this->trackerPosition, this->trackerRotation, L_pos_offset, L_rot_offset, this->wrist_position_, this->wrist_rotation_);
+  // }
+
   wrist_update = true;
 
-  if (!senseglove_->GetHandPose(this->hand_model_, this->hand_profile_, this->hand_pose_))
+  if (!this->senseglove_->GetHandPose(this->hand_model_, this->hand_profile_, this->hand_pose_))
   {
     ROS_DEBUG_THROTTLE(2, "Unsuccessfully updated hand pose data");
   }

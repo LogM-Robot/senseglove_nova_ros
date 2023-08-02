@@ -9,6 +9,7 @@
 #include "BasicHandModel.h"
 #include "HandPose.h"
 #include "DeviceList.h"
+#include "Tracking.h"
 
 #include <cstdint>
 #include <memory>
@@ -43,6 +44,8 @@ private:
   const int robot_index_;
   bool is_right_;
   bool updated_;
+  std::shared_ptr<SGCore::Nova::NovaGlove> novaglove_;
+  SGCore::Tracking tracking_;
 
 public:
   using iterator = std::vector<Joint>::iterator;

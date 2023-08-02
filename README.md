@@ -79,3 +79,23 @@ The finger distance package is meant to publish the distance between the fingert
 This is a small to do list for the upcoming features in this repository these will be added as issues as well.
 * Custom Exceptions for easy debugging
 * Provide speed and acceleration data of the fingertippositions as well as for the encoder data.
+
+## 4. Connect Nova Glove via bluetoothctl
+```bash
+bluetoothctl
+list
+show <CONTROLLER_MAC>
+power on
+agent on
+default-agent
+discoverable on
+pairable on
+scan on
+devices
+pair <NOVA_MAC>
+trust <NOVA_MAC>
+connect <NOVA_MAC>
+info <NOVA_MAC>
+disconnect <NOVA_MAC>
+quit
+```
