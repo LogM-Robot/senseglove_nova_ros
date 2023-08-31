@@ -83,13 +83,13 @@ void SenseGloveRobot::calibrteHandProfile()
 
 			// Step 2: Fist - Calibrates 3-finger flexion
 			std::cout << std::endl;
-			std::cout << "Step 2: Close your hand into a fist for next 5 seconds. Make sure your fingers aren't wrapped around your thumb." << std::endl;
+			std::cout << "Step 2: Close your hand into a fist for next 10 seconds. Make sure your fingers aren't wrapped around your thumb." << std::endl;
 			std::cout << "Once you are ready, press any key to continue" << std::endl;
 			std::cin.get();
       // record start time
       auto start = std::chrono::high_resolution_clock::now();
 			// update calibration range for 5 seconds
-      while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < 5)
+      while (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - start).count() < 10)
       {
         // This function updates the calibration range of senseglove_.
         this->senseglove_->UpdateCalibrationRange(); // Instead of this method, you can also use the GetSensorData(), GetGlovePose() or GetHandPose function instead.
